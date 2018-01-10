@@ -6,8 +6,11 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import java.nio.charset.Charset;
 import java.util.Map;
 
 /**
@@ -20,6 +23,14 @@ public class RestTemplateRequest<T> {
 
     private static final RestTemplate restTemplate = new RestTemplate();
 
+    static {
+        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        requestFactory.setReadTimeout(1000 * 60 * 5);// 5 minutes
+        requestFactory.setConnectTimeout(1000 * 60 * 5);
+        restTemplate.setRequestFactory(requestFactory);
+        restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(Charset.forName("UTF-8")));
+    }
+
     /**
      * POST请求
      * @param url
@@ -30,7 +41,7 @@ public class RestTemplateRequest<T> {
      * @return
      */
     public static<T> T postForObject(String url, Object request, Class<T> responseClass, Map<String, ?> params){
-        return restTemplate.postForObject(url, request, responseClass, params);
+        return null == params? restTemplate.postForObject(url, request, responseClass) : restTemplate.postForObject(url, request, responseClass, params);
     }
 
     /**
@@ -43,7 +54,7 @@ public class RestTemplateRequest<T> {
      * @return
      */
     public static<T> ResponseEntity<T> postForEntity(String url, Object request, Class<T> responseClass, Map<String, ?> params) {
-        return restTemplate.postForEntity(url, request, responseClass, params);
+        return null == params? restTemplate.postForEntity(url, request, responseClass) : restTemplate.postForEntity(url, request, responseClass, params);
     }
 
     /**
@@ -55,7 +66,7 @@ public class RestTemplateRequest<T> {
      * @return
      */
     public static<T> T getForObject(String url, Class<T> responseClass, Map<String, ?> params){
-        return restTemplate.getForObject(url, responseClass, params);
+        return null == params? restTemplate.getForObject(url, responseClass) : restTemplate.getForObject(url, responseClass, params);
     }
 
     /**
@@ -67,7 +78,7 @@ public class RestTemplateRequest<T> {
      * @return
      */
     public static<T> ResponseEntity<T> getForEntity(String url, Class<T> responseClass, Map<String, ?> params) {
-        return restTemplate.getForEntity(url, responseClass, params);
+        return null == params? restTemplate.getForEntity(url, responseClass) : restTemplate.getForEntity(url, responseClass, params);
     }
 
     /**
@@ -81,7 +92,7 @@ public class RestTemplateRequest<T> {
      * @return
      */
     public static<T> ResponseEntity<T> exchange(String url, int type, HttpEntity<?> requestEntity, Class<T> responseClass, Map<String, ?> params){
-        return restTemplate.exchange(url, type == 0? HttpMethod.GET : HttpMethod.POST, requestEntity, responseClass, params);
+        return null == params? restTemplate.exchange(url, type == 0? HttpMethod.GET : HttpMethod.POST, requestEntity, responseClass) : restTemplate.exchange(url, type == 0? HttpMethod.GET : HttpMethod.POST, requestEntity, responseClass, params);
     }
 
     /**
@@ -95,6 +106,6 @@ public class RestTemplateRequest<T> {
      * @return
      */
     public static<T> ResponseEntity<T> exchange(String url, int type, HttpEntity<?> requestEntity, ParameterizedTypeReference<T> responseType, Map<String, ?> params){
-        return restTemplate.exchange(url, type == 0? HttpMethod.GET : HttpMethod.POST, requestEntity, responseType, params);
+        return null == params? restTemplate.exchange(url, type == 0? HttpMethod.GET : HttpMethod.POST, requestEntity, responseType) : restTemplate.exchange(url, type == 0? HttpMethod.GET : HttpMethod.POST, requestEntity, responseType, params);
     }
 }

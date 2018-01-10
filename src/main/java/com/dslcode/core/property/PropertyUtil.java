@@ -1,7 +1,7 @@
 package com.dslcode.core.property;
 
-import com.dslcode.core.error.ErrorParser;
-import com.dslcode.core.reflect.ReflectUtil;
+import com.dslcode.core.exception.ExceptionParser;
+import com.dslcode.core.reflect.ReflectUtil_MDL;
 import com.dslcode.core.string.StringUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -61,7 +61,7 @@ public class PropertyUtil<T> {
 		}
 		return vos;
 	}
-	
+
 	/**
 	 * 复制对象属性
 	 * @param source
@@ -182,7 +182,7 @@ public class PropertyUtil<T> {
 				}
 			}
 		} catch (Exception e) {
-			log.error(StringUtil.append(targetClass.getClass().getName(),ErrorParser.getInfo(e)),e);
+			log.error(StringUtil.append(targetClass.getClass().getName(), ExceptionParser.getInfo(e)),e);
 		}
 		return target;
 	}
@@ -195,7 +195,7 @@ public class PropertyUtil<T> {
 	public static PropertyMapping getPropMappingAnno(Field field) {
 		return  (PropertyMapping) field.getDeclaredAnnotation(propAnnoClass);
 	}
-	
+
 	/**
 	 * 读取字段注解@PropertyMapping("user.baseUser.id")中的映射属性user.baseUser.id
 	 * @param field
@@ -220,7 +220,7 @@ public class PropertyUtil<T> {
 		if(null == source) return null;
 		Object value = null;
 		String[] names = mapping.split("\\.", 2);
-		PropertyDescriptor propDescriptor = ReflectUtil.getFieldDescriptor(source.getClass(), names[0]);
+		PropertyDescriptor propDescriptor = ReflectUtil_MDL.getFieldDescriptor(source.getClass(), names[0]);
 		value = propDescriptor.getReadMethod().invoke(source);
 		//继续获取下一层的属性
 		if(names.length == 2) value = getPropMappingValue(value, names[1]);
@@ -237,7 +237,7 @@ public class PropertyUtil<T> {
 		if(null == target || null == value)return ;
 		String[] names = mapping.split("\\.", 2);
 		try {
-			PropertyDescriptor propDescriptor = ReflectUtil.getFieldDescriptor(target.getClass(), names[0]);
+			PropertyDescriptor propDescriptor = ReflectUtil_MDL.getFieldDescriptor(target.getClass(), names[0]);
 			try {
 				if(names.length == 2){//继续设置下一层的属性
 					Object fieldValue = propDescriptor.getReadMethod().invoke(target);
@@ -250,10 +250,10 @@ public class PropertyUtil<T> {
 					propDescriptor.getWriteMethod().invoke(target,value);
 				}
 			} catch (Exception e) {
-				log.error(StringUtil.append(target.getClass().getName(),":",propDescriptor.getName(),ErrorParser.getInfo(e)),e);
+				log.error(StringUtil.append(target.getClass().getName(),":", propDescriptor.getName(), ExceptionParser.getInfo(e)), e);
 			}
 		} catch (Exception e) {
-			log.error(StringUtil.append(target.getClass().getName(),ErrorParser.getInfo(e)),e);
+			log.error(StringUtil.append(target.getClass().getName(), ExceptionParser.getInfo(e)), e);
 		}
 	}
 
@@ -267,6 +267,23 @@ public class PropertyUtil<T> {
 	 * @return
 	 */
 	public static<T> T dozerMapper(Object source, Class<T> targetClass){
+		if (null == source) return null;
 		return dozerMapper.map(source, targetClass);
 	}
+
+	/**
+	 * Dozer 复制List属性，性能非常好
+	 * @param sources
+	 * @param targetClass
+	 * @return
+	 */
+	public static<T> List<T> dozerListMapper(List sources, Class<T> targetClass){
+		if (null == sources) return null;
+		int size = sources.size();
+		if (size == 0) return new ArrayList<T>(0);
+		List<T> results = new ArrayList<T>(sources.size());
+		sources.forEach(s -> results.add(dozerMapper(s, targetClass)));
+		return results;
+	}
+
 }

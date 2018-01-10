@@ -1,5 +1,7 @@
 package com.dslcode.core.util;
 
+import com.dslcode.core.string.StringUtil;
+
 import java.security.MessageDigest;
 import java.util.Base64;
 
@@ -17,7 +19,7 @@ public class PwdUtil {
 	 * @throws Exception 
 	 */
 	public static String MD5Encode(String str){
-		if(NullUtil.isNull(str)) return null;
+		if(StringUtil.isEmpty(str)) return null;
 		MessageDigest messageDigest = null;
 		try {
 			messageDigest = MessageDigest.getInstance("MD5");

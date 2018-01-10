@@ -16,22 +16,30 @@ public class NullUtil {
 	 * @return
 	 */
 	public static boolean isNull(Object param) {
+		if(null == param) return true;
 		if (param instanceof String) {	// 字符串
-			return null == param || ((String) param).length() == 0;
+			return ((String) param).length() == 0;
 		} else if (param instanceof Collection) {	// 集合
 			Collection obj = (Collection) param;
-			return null == obj || obj.size() == 0;
+			return obj.size() == 0;
 		} else if (param instanceof Map) {	// Map
 			Map obj = (Map) param;
-			return null == obj || obj.isEmpty();
-		} else if (param.getClass().isArray()) {	// 数组
-			Object[] obj = (Object[]) param;
-			return null == obj || obj.length == 0;
-		}else {	// 其他
-			return null == param;
+			return obj.isEmpty();
 		}
+		return false;
 	}
 
+	/**
+	 * 判断提供的对象是否全部为空或String全部是否为empty
+	 * @param params
+	 * @return
+	 */
+	public static boolean isNullAll(Object... params){
+		for(Object param : params){
+			if(!isNull(param)) return false;
+		}
+		return true;
+	}
 
 	/**
 	 * 判断对象是否不为空或String是否不为empty
@@ -42,5 +50,15 @@ public class NullUtil {
 		return !isNull(param);
 	}
 
-
+	/**
+	 * 判断提供的对象是否全部都不为空或String全部都不为empty
+	 * @param params
+	 * @return
+	 */
+	public static boolean isNotNullAll(Object... params){
+		for(Object param : params){
+			if(isNull(param)) return false;
+		}
+		return true;
+	}
 }

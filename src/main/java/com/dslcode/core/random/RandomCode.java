@@ -26,7 +26,7 @@ public class RandomCode {
 	/** 小写字母字符数组的长度*/
 	private static final int LETTER_L_LEN= 26;
 	/** 随机对象 */
-	private static final Random random = new Random();
+	public static final Random random = new Random();
 	
 	/**
 	 * 获取随机数字和所有字母混合字符串
@@ -34,7 +34,7 @@ public class RandomCode {
 	 * @return
 	 */
 	public static String getNumLetterCode(int len){
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 		for(int i=0; i<len; i++){
 			sb.append(NUM_LETTER_ALL[random.nextInt(NUM_LETTER_ALL_LEN)]);
 		}
@@ -47,7 +47,7 @@ public class RandomCode {
 	 * @return
 	 */
 	public static String getNumLetterLowerCode(int len){
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 		for(int i=0; i<len; i++){
 			sb.append(NUM_LETTER_L[random.nextInt(NUM_LETTER_L_LEN)]);
 		}
@@ -60,7 +60,7 @@ public class RandomCode {
 	 * @return
 	 */
 	public static String getLetterLowerCode(int len){
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 		for(int i=0; i<len; i++){
 			sb.append(LETTER_L[random.nextInt(LETTER_L_LEN)]);
 		}
@@ -73,7 +73,7 @@ public class RandomCode {
 	 * @return
 	 */
 	public static String getNumCode(int len){
-		StringBuilder sb = new StringBuilder();
+		StringBuffer sb = new StringBuffer();
 		for(int i=0; i<len; i++){
 			sb.append(NUM_ALL[random.nextInt(NUM_ALL_LEN)]);
 		}

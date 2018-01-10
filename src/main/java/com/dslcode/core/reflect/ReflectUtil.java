@@ -1,85 +1,28 @@
-/**    
- * @Title: ReflectUtil.java
- * @Package com.linkincode.core.reflect
- * @Description: TODO
- * @author 母德亮
- * @date 2016年3月8日 下午6:29:55
- * @version V1.0
- * @修改人: 
- * @修改备注: 
- * @修改时间: 
- */
 package com.dslcode.core.reflect;
 
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.Signature;
-import org.aspectj.lang.reflect.MethodSignature;
-import org.aspectj.util.GenericSignature.ClassSignature;
-
-import java.beans.PropertyDescriptor;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
+import java.math.BigDecimal;
 
 /**
- * @ClassName: ReflectUtil
- * @Description: TODO
- * @author 母德亮
- * @date 2016年3月8日 下午6:29:55
- * @修改人: 
- * @修改备注: 
- * @修改时间: 
- * 
+ * Created by dongsilin on 2016/12/9.
+ * 反射工具类
  */
 public class ReflectUtil {
-	/**
-	 * @Description: 获取切面切入点得注解
-	 * @param joinPoint
-	 * @param c
-	 * @return
-	 * @throws Exception Annotation
-	 */
-	public static <T extends Annotation> Annotation getJoinAnnotation(JoinPoint joinPoint,Class<T> c) throws Exception {
-		T anno = null;
-		Signature signature = joinPoint.getSignature();
-		if(signature instanceof MethodSignature){
-			Method method = ((MethodSignature) signature).getMethod();
-			anno = method.getDeclaredAnnotation(c);
-		}else if(signature instanceof ClassSignature){
-			anno = joinPoint.getClass().getDeclaredAnnotation(c);
-		}
-		return anno;
-	}
-	/**
-	 * @Description: 获取切面切入点类
-	 * @param joinPoint
-	 * @return
-	 * @throws Exception Annotation
-	 */
-	public static Class getJoinClass(JoinPoint joinPoint) throws Exception {
-		return joinPoint.getTarget().getClass();
-	}
-	/**
-	 * @Description: 获取切面切入点方法
-	 * @param joinPoint
-	 * @return
-	 * @throws Exception Annotation
-	 */
-	public static Method getJoinMethod(JoinPoint joinPoint) throws Exception {
-		Method method =  null;
-		Signature signature = joinPoint.getSignature();
-		if(signature instanceof MethodSignature){
-			method = ((MethodSignature) signature).getMethod();
-		}else if(signature instanceof ClassSignature){
-		}
-		return method;
-	}
-	/**
-	 * @Description: 获取对象属性的描述
-	 * @param c
-	 * @param fieldName
-	 * @return Object
-	 */
-	public static PropertyDescriptor getFieldDescriptor(Class c, String fieldName) {
-		return ClassCache.getFieldDescriptor(c, fieldName);
-	}
+
+    /**
+     * 根据Class类型将String转化为对应的值
+     * @param c
+     * @param value
+     * @return
+     * @throws Exception
+     */
+    public static Object getValue(Class c, String value) throws Exception {
+        String cName = c.getSimpleName();
+        if("String".equals(cName)) return value;
+        else if("int".equals(cName) || "Integer".equals(cName)) return Integer.parseInt(value);
+        else if("Long".equalsIgnoreCase(cName)) return Long.parseLong(value);
+        else if("Double".equalsIgnoreCase(cName)) return Double.parseDouble(value);
+        else if("Float".equalsIgnoreCase(cName)) return Float.parseFloat(value);
+        else if("BigDecimal".equals(cName)) return new BigDecimal(value);
+        else throw new Exception("类型"+ cName + "暂不能解析...");
+    }
 }
