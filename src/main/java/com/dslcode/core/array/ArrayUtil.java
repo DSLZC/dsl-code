@@ -12,16 +12,16 @@ import java.util.List;
  * Created by dongsilin on 2016/11/21.
  * 数组操作util
  * @author 董思林
- * @date 2016-11-21 10:20:25
+ *  2016-11-21 10:20:25
  */
 public class ArrayUtil<T> {
 
     /**
      * List转换为Array
      * @param list 源List
-     * @param arrayClass
-     * @param <T>
-     * @return
+     * @param arrayClass target class
+     * @param <T> 泛型
+     * @return T[]
      */
     public static<T> T[] toArray(List<T> list, Class<T> arrayClass){
         if(NullUtil.isNotNullAll(list, arrayClass)){
@@ -35,9 +35,9 @@ public class ArrayUtil<T> {
     /**
      * 移除null元素
      * @param oos 源array
-     * @param arrayClass
-     * @param <T>
-     * @return
+     * @param arrayClass array Class
+     * @param <T> 泛型
+     * @return T
      */
     public static<T> T[] removeNull(Class<T> arrayClass, T... oos){
         List<T> lists = Arrays.asList(oos);
@@ -47,9 +47,9 @@ public class ArrayUtil<T> {
 
     /**
      * 模拟js join
-     * @param objects
-     * @param split
-     * @return
+     * @param objects 源数组
+     * @param split 分隔符
+     * @return String
      */
     public static String join(Object[] objects, String split){
         return StringUtil.join(objects, split);
@@ -57,8 +57,9 @@ public class ArrayUtil<T> {
 
     /**
      * 判断是否为空
-     * @param param
-     * @return
+     * @param param 数组
+     * @param <T> 泛型
+     * @return boolean
      */
     public static<T> boolean isNull(T... param) {
         return null == param || param.length == 0;
@@ -66,8 +67,9 @@ public class ArrayUtil<T> {
 
     /**
      * 判断是否不为空
-     * @param param
-     * @return
+     * @param param 数组
+     * @param <T> 泛型
+     * @return boolean
      */
     public static<T> boolean isNotNull(T... param) {
         return !isNull(param);

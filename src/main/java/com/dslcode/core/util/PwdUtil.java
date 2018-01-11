@@ -7,16 +7,15 @@ import java.util.Base64;
 
 /**
  * 密码工具类
- * @author DSL 
- * @date 2016-07-13
+ * @author DSL
+ *  2016-07-13
  */
 public class PwdUtil {
 
 	/**
 	 * MD5加密
-	 * @param str
-	 * @return
-	 * @throws Exception 
+	 * @param str 未加密字符串
+	 * @return 加密字符串
 	 */
 	public static String MD5Encode(String str){
 		if(StringUtil.isEmpty(str)) return null;
@@ -38,12 +37,11 @@ public class PwdUtil {
 		}
 		return md5StrBuff.toString();
 	}
-	
+
 	/**
 	 * Base64加密
-	 * @param str
-	 * @return
-	 * @throws Exception 
+	 * @param str 未加密字符串
+	 * @return 加密字符串
 	 */
     public static String BASE64Encode(String str) {
     	if(NullUtil.isNull(str)) return null;
@@ -54,12 +52,11 @@ public class PwdUtil {
 			return null;
 		}
     }
-   
+
     /**
      * Base64解密
-     * @param str
-     * @return
-     * @throws Exception
+     * @param str 加密字符串
+     * @return 解密的字符串
      */
     public static String BASE64Decod(String str) {
     	if(NullUtil.isNull(str)) return null;
@@ -70,5 +67,5 @@ public class PwdUtil {
 			return null;
 		}
     }
-    
+
 }

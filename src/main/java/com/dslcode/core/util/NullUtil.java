@@ -6,14 +6,14 @@ import java.util.Map;
 /**
  * 判断非null Util
  * @author DSL 
- * @date 2016-07-13
+ *  2016-07-13
  */
 public class NullUtil {
 
 	/**
 	 * 判断对象是否为空或String是否为empty
-	 * @param param
-	 * @return
+	 * @param param 源对象
+	 * @return boolean
 	 */
 	public static boolean isNull(Object param) {
 		if(null == param) return true;
@@ -31,8 +31,8 @@ public class NullUtil {
 
 	/**
 	 * 判断提供的对象是否全部为空或String全部是否为empty
-	 * @param params
-	 * @return
+	 * @param params 源对象数组
+	 * @return boolean
 	 */
 	public static boolean isNullAll(Object... params){
 		for(Object param : params){
@@ -43,8 +43,8 @@ public class NullUtil {
 
 	/**
 	 * 判断对象是否不为空或String是否不为empty
-	 * @param param
-	 * @return
+	 * @param param 源对象
+	 * @return boolean
 	 */
 	public static boolean isNotNull(Object param) {
 		return !isNull(param);
@@ -52,8 +52,8 @@ public class NullUtil {
 
 	/**
 	 * 判断提供的对象是否全部都不为空或String全部都不为empty
-	 * @param params
-	 * @return
+	 * @param params 源对象数组
+	 * @return boolean
 	 */
 	public static boolean isNotNullAll(Object... params){
 		for(Object param : params){

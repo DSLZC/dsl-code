@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 方法调用返回对象，便于封装错误信息，避免抛出异常影响性能
  * @author 董思林
- * @date 2017-07-03
+ *  2017-07-03
  */
 @Data
 public class FunctionResult {

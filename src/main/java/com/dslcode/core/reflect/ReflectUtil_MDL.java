@@ -3,7 +3,7 @@
  * @Package com.linkincode.core.reflect
  * @Description: TODO
  * @author 母德亮
- * @date 2016年3月8日 下午6:29:55
+ *  2016年3月8日 下午6:29:55
  * @version V1.0
  * @修改人: 
  * @修改备注: 
@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
  * @ClassName: ReflectUtil
  * @Description: TODO
  * @author 母德亮
- * @date 2016年3月8日 下午6:29:55
+ *  2016年3月8日 下午6:29:55
  * @修改人: 
  * @修改备注: 
  * @修改时间: 

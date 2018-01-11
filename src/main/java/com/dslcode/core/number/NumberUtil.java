@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 数值格式化util
  * @author 董思林
- * @date 2016年11月3日 16:07:38
+ *  2016年11月3日 16:07:38
  */
 public class NumberUtil {
 	public static final Map<String, DecimalFormat> formatCache = new ConcurrentHashMap<String, DecimalFormat>();

@@ -6,7 +6,6 @@ import com.dslcode.web.pay.config.PayConfig;
 import com.dslcode.web.pay.dto.BasePayDTO;
 import com.dslcode.web.pay.util.MD5;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -14,7 +13,6 @@ import java.math.BigDecimal;
  * Created by dongsilin on 2016/12/13.
  */
 @Data
-@NoArgsConstructor
 public class ApplyRefundDTO extends BasePayDTO {
 
     /** 随机字符串：随机字符串，不长于32位。 */

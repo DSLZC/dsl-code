@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * 生成随机字符串类
  * @author 董思林
- * @date 2016-07-13
+ *  2016-07-13
  */
 public class RandomCode {
 

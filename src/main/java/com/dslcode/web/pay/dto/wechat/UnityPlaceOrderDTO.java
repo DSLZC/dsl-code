@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * Created by dongsilin on 2016/11/19.
  * 微信 统一下单DTO， 封装支付参数
  * @author 董思林
- * @date 2016-11-19 10:05:00
+ *  2016-11-19 10:05:00
  */
 @Data
 public class UnityPlaceOrderDTO extends BasePayDTO {

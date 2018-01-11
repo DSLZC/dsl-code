@@ -15,7 +15,7 @@ import java.nio.file.StandardOpenOption;
 /**
  * 文件操作Util
  * @author 董思林
- * @date 2016-07-14
+ *  2016-07-14
  */
 @Slf4j
 public final class FileUtil {

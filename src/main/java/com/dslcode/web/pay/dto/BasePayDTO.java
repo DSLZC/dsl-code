@@ -1,7 +1,6 @@
 package com.dslcode.web.pay.dto;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +10,6 @@ import java.math.BigDecimal;
  * Created by dongsilin on 2016/11/19.
  */
 @Data
-@NoArgsConstructor
 public class BasePayDTO {
     public static final Logger log = LoggerFactory.getLogger(BasePayDTO.class);
 
@@ -46,4 +44,6 @@ public class BasePayDTO {
         this.out_trade_no = out_trade_no;
     }
 
+    public BasePayDTO() {
+    }
 }

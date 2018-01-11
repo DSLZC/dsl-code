@@ -12,16 +12,16 @@ import java.util.List;
  * Created by dongsilin on 2016/11/4.
  * List集合工具类
  * @author 董思林
- * @date 2016-11-15 10:20:25
+ *  2016-11-15 10:20:25
  *
  */
 public class ListUtil<T, U> {
 
     /**
-     * 根据参数，获取List
-     * @param datas
-     * @param <T>
-     * @return
+     * 数组转List
+     * @param datas 数组
+     * @param <T> 泛型
+     * @return List
      */
     public static<T> List<T> getList(T... datas){
         List<T> list = new ArrayList<T>(5);
@@ -35,8 +35,8 @@ public class ListUtil<T, U> {
     /**
      * 数组转List
      * @param ts 数组
-     * @param <T>
-     * @return
+     * @param <T> 泛型
+     * @return List
      */
     public static<T> List<T> asList(T[] ts){
         return Arrays.asList(ts);
@@ -44,9 +44,9 @@ public class ListUtil<T, U> {
 
     /**
      * 移除null元素
-     * @param list
-     * @param <T>
-     * @return
+     * @param list 源List
+     * @param <T> 泛型
+     * @return List
      */
     public static<T> List<T> removeNull(List<T> list){
         List<T> results = new ArrayList<T>(list.size());
@@ -56,11 +56,11 @@ public class ListUtil<T, U> {
 
     /**
      * 模拟js join
-     * @param c
-     * @param split
-     * @return
+     * @param c 源集合
+     * @param split 分隔符
+     * @return String
      */
-    public static String join(Collection c, String split){
+    public static String join(Collection<? extends String> c, String split){
         return StringUtil.join(c, split);
     }
 
@@ -71,7 +71,7 @@ public class ListUtil<T, U> {
      * @param attribute lambda或者实现ListAttribute的对象
      * @param <U> 源集合元素类型
      * @param <T> 想要得到源集合元素的属性的类型
-     * @return
+     * @return List
      */
     public static<T, U> List<U> attribute2List(Collection<T> collection, Attribute<T, U> attribute){
         List<U> list = new ArrayList<U>();

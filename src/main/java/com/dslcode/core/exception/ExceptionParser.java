@@ -3,7 +3,7 @@ package com.dslcode.core.exception;
 /**
  * ExceptionParser
  * @author 董思林
- * @date 2016年11月08日 15:55:30
+ *  2016年11月08日 15:55:30
  */
 public class ExceptionParser {
 	

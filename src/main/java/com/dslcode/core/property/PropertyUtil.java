@@ -18,7 +18,7 @@ import java.util.*;
 /**
  * 对象属性Util
  * @author 董思林
- * @date 2016年11月08日 15:55:30
+ *  2016年11月08日 15:55:30
  */
 public class PropertyUtil<T> {
 
@@ -266,7 +266,7 @@ public class PropertyUtil<T> {
 	 * @param targetClass
 	 * @return
 	 */
-	public static<T> T dozerMapper(Object source, Class<T> targetClass){
+	public static<T> T mapper(Object source, Class<T> targetClass){
 		if (null == source) return null;
 		return dozerMapper.map(source, targetClass);
 	}
@@ -277,12 +277,12 @@ public class PropertyUtil<T> {
 	 * @param targetClass
 	 * @return
 	 */
-	public static<T> List<T> dozerListMapper(List sources, Class<T> targetClass){
+	public static<T> List<T> mapperList(List sources, Class<T> targetClass){
 		if (null == sources) return null;
 		int size = sources.size();
 		if (size == 0) return new ArrayList<T>(0);
 		List<T> results = new ArrayList<T>(sources.size());
-		sources.forEach(s -> results.add(dozerMapper(s, targetClass)));
+		sources.forEach(s -> results.add(mapper(s, targetClass)));
 		return results;
 	}
 

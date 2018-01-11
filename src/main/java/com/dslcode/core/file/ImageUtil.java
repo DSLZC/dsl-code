@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * 图片工具类
  * @author 董思林 
- * @date 2016-07-20
+ *  2016-07-20
  */
 public class ImageUtil {
 

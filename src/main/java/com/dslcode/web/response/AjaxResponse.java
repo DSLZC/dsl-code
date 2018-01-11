@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * AJAX请求的返回对象
  * @author 董思林
- * @date 2016-07-13
+ * 2016-07-13
  */
 @Data
 @JsonAutoDetect

@@ -158,7 +158,7 @@ public enum AjaxResponseCode {
 
     /**
      * 所有AjaxResponseCode转为Set<Entry>
-     * @return
+     * @return Set<Entry>
      */
     public static Set<Entry> toEntries(){
         if(entries == null){
@@ -169,7 +169,7 @@ public enum AjaxResponseCode {
 
     /**
      * 单个AjaxResponseCode转为Entry
-     * @return
+     * @return Entry
      */
     public Entry toEntry(){
         if (responseCodeMap == null) responseCodeMap = new HashMap<>(50);
@@ -181,6 +181,9 @@ public enum AjaxResponseCode {
         return entry;
     }
 
+    /**
+     * 静态内部类Entry
+     */
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
