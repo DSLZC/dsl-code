@@ -1,5 +1,7 @@
 package cn.dslcode.common.web;
 
+import cn.dslcode.common.core.array.ArrayUtil;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,10 +19,24 @@ public class CookieUtil {
      * @return
      */
     public static Cookie get(HttpServletRequest request, String cookieName){
-        for(Cookie cookie : request.getCookies()){
+        Cookie[] cookies = request.getCookies();
+        if (ArrayUtil.isEmpty(cookies)) return null;
+        for(Cookie cookie : cookies){
             if(cookie.getName().equals(cookieName)) return cookie;
         }
         return null;
+    }
+
+    /**
+     * 根据cookie名称获取cookie value
+     * @param request
+     * @param cookieName
+     * @return
+     */
+    public static String getValue(HttpServletRequest request, String cookieName){
+        Cookie cookie = get(request, cookieName);
+        if (cookie == null) return null;
+        return cookie.getValue();
     }
 
     /**

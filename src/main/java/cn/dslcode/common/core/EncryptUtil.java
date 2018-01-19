@@ -1,4 +1,4 @@
-package cn.dslcode.common.core.util;
+package cn.dslcode.common.core;
 
 import cn.dslcode.common.core.string.StringUtil;
 
@@ -10,7 +10,7 @@ import java.util.Base64;
  * @author DSL
  *  2016-07-13
  */
-public class PwdUtil {
+public class EncryptUtil {
 
 	/**
 	 * MD5加密
@@ -44,7 +44,7 @@ public class PwdUtil {
 	 * @return 加密字符串
 	 */
     public static String BASE64Encode(String str) {
-    	if(NullUtil.isNull(str)) return null;
+    	if(StringUtil.isEmpty(str)) return null;
         try {
 			return new String(Base64.getEncoder().encode(str.getBytes("utf-8")), "utf-8");
 		} catch (Exception e) {
@@ -59,7 +59,7 @@ public class PwdUtil {
      * @return 解密的字符串
      */
     public static String BASE64Decod(String str) {
-    	if(NullUtil.isNull(str)) return null;
+		if(StringUtil.isEmpty(str)) return null;
     	try {
 			return new String(Base64.getDecoder().decode(str.getBytes("utf-8")), "utf-8");
 		} catch (Exception e) {

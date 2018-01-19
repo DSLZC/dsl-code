@@ -1,7 +1,7 @@
 package cn.dslcode.common.core.array;
 
+import cn.dslcode.common.core.NullUtil;
 import cn.dslcode.common.core.string.StringUtil;
-import cn.dslcode.common.core.util.NullUtil;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.reflect.Array;

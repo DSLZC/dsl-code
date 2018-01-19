@@ -1,6 +1,6 @@
 package cn.dslcode.common.core.number;
 
-import cn.dslcode.common.core.util.NullUtil;
+import cn.dslcode.common.core.string.StringUtil;
 
 import java.text.DecimalFormat;
 import java.util.Map;
@@ -39,7 +39,7 @@ public class NumberUtil {
 	 * @return DecimalFormat
 	 */
 	public static String format(Number num, String format) {
-    	if(NullUtil.isNull(format)) return defaultFormat(num);
+    	if(StringUtil.isEmpty(format)) return defaultFormat(num);
 		return getFormart(format).format(num);
 	}
 	/**

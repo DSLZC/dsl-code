@@ -3,7 +3,7 @@ package cn.dslcode.common.core.document.excel.create;
 import cn.dslcode.common.core.document.excel.ExcelType;
 import cn.dslcode.common.core.document.excel.SheetCell;
 import cn.dslcode.common.core.document.excel.SheetStyle;
-import cn.dslcode.common.core.util.NullUtil;
+import cn.dslcode.common.core.string.StringUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -38,7 +38,7 @@ public final class ExcelCreateUtil {
         Workbook workbook = excelType.equals(ExcelType.$2003)? new HSSFWorkbook() : new XSSFWorkbook();
 
         // 2. 在Excel工作簿中建一工作表，其名为缺省值, 也可以指定Sheet名称
-        Sheet sheet = NullUtil.isNull(sheetName)? workbook.createSheet() : workbook.createSheet(sheetName);
+        Sheet sheet = StringUtil.isEmpty(sheetName)? workbook.createSheet() : workbook.createSheet(sheetName);
 
         // 3. 创建默认的excel字体样式
         SheetStyle defaultStyle = SheetStyle.defaultStyle(workbook);

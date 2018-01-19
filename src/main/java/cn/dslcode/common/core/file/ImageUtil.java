@@ -1,6 +1,6 @@
 package cn.dslcode.common.core.file;
 
-import cn.dslcode.common.core.util.NullUtil;
+import cn.dslcode.common.core.string.StringUtil;
 import cn.dslcode.common.web.request.create.JavaURIRequest;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Position;
@@ -149,7 +149,7 @@ public class ImageUtil {
 		params.put("w", "250");
 		params.put("m", "10");
 		params.put("text", text);
-		if(NullUtil.isNotNull(logo)) params.put("logo", logo);
+		if(StringUtil.isNotEmpty(logo)) params.put("logo", logo);
 		InputStream is = JavaURIRequest.invoke("get", url, params);
 		if(null == is) is = JavaURIRequest.invoke("get", url, params);
 		return is;
@@ -165,7 +165,7 @@ public class ImageUtil {
 	 */
 	public static boolean imageWidthAndHeight(InputStream inputStream, int width, int height) throws Exception {
 		BufferedImage image = ImageIO.read(inputStream);
-		if(NullUtil.isNull(image)) throw new NullPointerException("图片为空...");
+		if(image == null) throw new NullPointerException("图片为空...");
 		if(image.getWidth() != width) throw new Exception("图片宽度不正确...");
 		if(image.getHeight() != height) throw new Exception("图片高度不正确...");
 		return true;
@@ -181,7 +181,7 @@ public class ImageUtil {
      */
 	public static void imageWidthAndHeightBund(InputStream inputStream, long size, ImageCompare... imageCompares) throws Exception {
 		BufferedImage image = ImageIO.read(inputStream);
-		if(NullUtil.isNull(image)) throw new NullPointerException("图片为空...");
+		if(image == null) throw new NullPointerException("图片为空...");
 		for (ImageCompare imageCompare : imageCompares) {
 		    switch (imageCompare.getType()){
                 case width:

@@ -1,7 +1,6 @@
 package cn.dslcode.common.core.string;
 
 import cn.dslcode.common.core.reflect.ReflectUtil;
-import cn.dslcode.common.core.util.NullUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -30,7 +29,7 @@ public class XMLUtil {
      */
     public static Element getRootElement(String xml) throws Exception {
         xml = xml.replaceFirst("encoding=\".*\"", "encoding=\"UTF-8\"");
-        if(NullUtil.isNull(xml)) return null;
+        if(StringUtil.isEmpty(xml)) return null;
         InputStream in = new ByteArrayInputStream(xml.getBytes("UTF-8"));
         Document doc = new SAXReader().read(in);
         in.close(); //关闭流
@@ -44,7 +43,7 @@ public class XMLUtil {
      * @throws IOException
      */
     public static Map xmlParse2Map(String xml) throws Exception {
-        if(NullUtil.isNull(xml)) return new HashMap();
+        if(StringUtil.isEmpty(xml)) return new HashMap();
         Element root = getRootElement(xml);
         if(null == root) return null;
         return xmlChild2Map(root.elements());
