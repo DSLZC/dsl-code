@@ -1,6 +1,6 @@
 package cn.dslcode.common.core.validate;
 
-import cn.dslcode.common.core.util.NullUtil;
+import cn.dslcode.common.core.string.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -84,10 +84,10 @@ public class ValidationUtil<T> {
      * @return
      */
     public static boolean isMatch(String str, String reg, boolean required) {
-        if(NullUtil.isNull(reg)) return false;
-        if(required && NullUtil.isNull(str)) return false;
+        if(StringUtil.isEmpty(reg)) return false;
+        if(required && StringUtil.isEmpty(str)) return false;
         //必须验证
-        if(required || NullUtil.isNotNull(str)){
+        if(required || StringUtil.isNotEmpty(str)){
             return str.matches(reg);
         }
         return false;

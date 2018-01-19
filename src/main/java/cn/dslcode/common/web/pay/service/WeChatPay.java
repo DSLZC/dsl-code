@@ -4,8 +4,6 @@ import cn.dslcode.common.core.date.DateUtil;
 import cn.dslcode.common.core.file.ImageUtil;
 import cn.dslcode.common.core.string.StringUtil;
 import cn.dslcode.common.core.string.XMLUtil;
-import cn.dslcode.common.core.util.EqualsUtil;
-import cn.dslcode.common.core.util.NullUtil;
 import cn.dslcode.common.web.pay.config.PayConfig;
 import cn.dslcode.common.web.pay.config.PayEnum;
 import cn.dslcode.common.web.pay.dto.BasePayDTO;
@@ -46,11 +44,11 @@ public class WeChatPay implements PayMethod {
             String requestXml = getUnifyOrderXml(placeOrderDTO, payType);
             // 执行统一下单
             String unifyPlaceOrderReturnXml = unifyPlaceOrder(requestXml, config.getWeChatGateWayUrl());
-            if(NullUtil.isNull(unifyPlaceOrderReturnXml)) throw new Exception("统一下单 请求失败......");
+            if(StringUtil.isEmpty(unifyPlaceOrderReturnXml)) throw new Exception("统一下单 请求失败......");
             // 返回xml解析
             Map<String, Object> unifyPlaceOrderReturnMap = XMLUtil.xmlParse2Map(unifyPlaceOrderReturnXml);
             // 封装 调起微信APP支付参数
-            if(EqualsUtil.equalsAllIgnoreCase("SUCCESS", String.valueOf(unifyPlaceOrderReturnMap.get("return_code")), String.valueOf(unifyPlaceOrderReturnMap.get("result_code")))){
+            if(StringUtil.eq("SUCCESS", String.valueOf(unifyPlaceOrderReturnMap.get("return_code"))) && StringUtil.eq("SUCCESS", String.valueOf(unifyPlaceOrderReturnMap.get("result_code")))){
                 if(payType == PayEnum.PayType.weChat_app || payType == PayEnum.PayType.weChat_gzh){
                     // 返回PayAppDTO给APP
                     return new PayAppDTO(
@@ -146,7 +144,7 @@ public class WeChatPay implements PayMethod {
         return StringUtil.append2String(
                 "<xml>",
                 "<appid>", placeOrderDTO.getAppid(), "</appid>",
-                NullUtil.isNotNull(placeOrderDTO.getAttach())? "<attach>"+placeOrderDTO.getAttach()+"</attach>" : "",
+                StringUtil.isNotEmpty(placeOrderDTO.getAttach())? "<attach>"+placeOrderDTO.getAttach()+"</attach>" : "",
                 "<body>", placeOrderDTO.getBody(), "</body>",
                 "<mch_id>", placeOrderDTO.getMch_id(), "</mch_id>",
                 "<nonce_str>", placeOrderDTO.getNonce_str(), "</nonce_str>",

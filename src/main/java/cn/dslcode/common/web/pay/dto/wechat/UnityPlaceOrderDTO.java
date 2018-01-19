@@ -2,7 +2,6 @@ package cn.dslcode.common.web.pay.dto.wechat;
 
 import cn.dslcode.common.core.random.RandomCode;
 import cn.dslcode.common.core.string.StringUtil;
-import cn.dslcode.common.core.util.NullUtil;
 import cn.dslcode.common.web.pay.config.PayConfig;
 import cn.dslcode.common.web.pay.config.PayEnum;
 import cn.dslcode.common.web.pay.dto.BasePayDTO;
@@ -88,7 +87,7 @@ public class UnityPlaceOrderDTO extends BasePayDTO {
     private static String getWeChatPaySign(UnityPlaceOrderDTO placeOrderDTO, PayEnum.PayType payType){
         StringBuffer sb = StringUtil.append(
                 "appid=", placeOrderDTO.getAppid(),
-                NullUtil.isNotNull(placeOrderDTO.getAttach())? "&attach="+placeOrderDTO.getAttach() : "", // 附加参数
+                StringUtil.isNotEmpty(placeOrderDTO.getAttach())? "&attach="+placeOrderDTO.getAttach() : "", // 附加参数
                 "&body=", placeOrderDTO.getBody(),
                 "&mch_id=", placeOrderDTO.getMch_id(),
                 "&nonce_str=", placeOrderDTO.getNonce_str(),

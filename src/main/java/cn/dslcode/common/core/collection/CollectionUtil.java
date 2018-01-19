@@ -1,7 +1,7 @@
 package cn.dslcode.common.core.collection;
 
+import cn.dslcode.common.core.array.ArrayUtil;
 import cn.dslcode.common.core.string.StringUtil;
-import cn.dslcode.common.core.util.NullUtil;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class CollectionUtil<T, U> extends CollectionUtils {
      */
     public static<T> List<T> getList(T... datas){
         List<T> list = new ArrayList<T>(5);
-        if(NullUtil.isNull(datas)) return list;
+        if(ArrayUtil.isEmpty(datas)) return list;
         for(T data : datas){
             list.add(data);
         }
