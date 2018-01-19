@@ -78,7 +78,7 @@ public class AjaxResponse<T> implements Serializable {
      * @param body
      * @return
      */
-    public static<T> AjaxResponse buildSuccessbody(T body) {
+    public static<T> AjaxResponse buildSuccessBody(T body) {
         return new AjaxResponse(AjaxResponseCode.SUCCESS.code, null, body);
     }
 
@@ -111,7 +111,7 @@ public class AjaxResponse<T> implements Serializable {
      * @param body
      * @return
      */
-    public static<T> AjaxResponse buildFailedbody(T body) {
+    public static<T> AjaxResponse buildFailedBody(T body) {
         return new AjaxResponse(AjaxResponseCode.FAIL.code, null, body);
     }
 
