@@ -5,7 +5,7 @@
 
 	<groupId>io.github.dslzc</groupId>
 	<artifactId>dslcode.common.utils</artifactId>
-	<version>0.1.1</version>
+	<version>0.1.2</version>
 	<packaging>jar</packaging>
 
 	<name>Java-Common-Utils</name>
@@ -46,6 +46,7 @@
 		<commons.io.version>2.4</commons.io.version>
 		<dom4j.version>1.6.1</dom4j.version>
 		<dozer.version>5.5.1</dozer.version>
+		<commons-lang3.version>3.2.1</commons-lang3.version>
 		<lombok.version>1.16.10</lombok.version>
 		<joda.time.version>2.9.4</joda.time.version>
 		<apache.poi.version>3.14</apache.poi.version>
@@ -88,13 +89,13 @@
 			<optional>true</optional>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
+<!--		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>${commons.io.version}</version>
 			<optional>true</optional>
 			<scope>provided</scope>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
@@ -107,6 +108,12 @@
 			<artifactId>dozer</artifactId>
 			<version>${dozer.version}</version>
 			<scope>provided</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang3.version}</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
