@@ -26,21 +26,21 @@ public class ThreadPoolUtil {
         if (null == executorService) {
             synchronized (ThreadPoolUtil.class) {
                 if (null != executorService) return;
-                // newFixedThreadPool使用的队列是new LinkedBlockingQueue，这是一个无边界队列，如果不断的往里加任务时，最终会导致内存问题
-                // executorService = Executors.newFixedThreadPool(threadSize);
                 if (threadSize > MAX_THREAD_SIZE) throw new RuntimeException(String.format("当前线程数量：%s，大于最大线程数量：%s", threadSize, MAX_THREAD_SIZE));
-                BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<Runnable>(100);
-                ThreadFactory threadFactory = new CustomThreadFactory();
-                RejectedExecutionHandler rejectedHandler = new CustomRejectedExecutionHandler();
-                executorService = new ThreadPoolExecutor(
-                        threadSize,
-                        MAX_THREAD_SIZE,
-                        KEEP_ALIVE_TIME,
-                        TimeUnit.SECONDS,
-                        workQueue,
-                        threadFactory,
-                        rejectedHandler
-                );
+                // newFixedThreadPool使用的队列是new LinkedBlockingQueue，这是一个无边界队列，如果不断的往里加任务时，最终会导致内存问题
+                 executorService = Executors.newFixedThreadPool(threadSize);
+//                BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<Runnable>(100);
+//                ThreadFactory threadFactory = new CustomThreadFactory();
+//                RejectedExecutionHandler rejectedHandler = new CustomRejectedExecutionHandler();
+//                executorService = new ThreadPoolExecutor(
+//                        threadSize,
+//                        MAX_THREAD_SIZE,
+//                        KEEP_ALIVE_TIME,
+//                        TimeUnit.SECONDS,
+//                        workQueue,
+//                        threadFactory,
+//                        rejectedHandler
+//                );
             }
         }
     }
