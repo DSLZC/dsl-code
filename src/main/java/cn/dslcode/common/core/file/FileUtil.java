@@ -23,7 +23,7 @@ public final class FileUtil {
 	/** 文件路径分隔符 */
 	public static final char PATH_SEPARATOR = File.separatorChar;
 	/** 缓存区大小 */
-	private static final int BUFFER_SIZE = 40960;
+    public static final int BUFFER_SIZE = 40960;
 
 	/**
 	 * 获取文件后缀名
@@ -42,10 +42,12 @@ public final class FileUtil {
 	 * @param isContainsDian 后缀是否包含.  如：true —— .text .doc .xml；false —— text doc xml
 	 * @return
 	 */
-	public static String suffix(String pathOrName, boolean isContainsDian) throws Exception{
+	public static String suffix(String pathOrName, boolean isContainsDian){
 		if(StringUtil.isEmpty(pathOrName)) throw new NullPointerException("文件路径或文件名为空...");
 		int index = pathOrName.lastIndexOf(".");
-		if(index < 0) throw new Exception("文件路径或文件名错误...");
+		if(index < 0) {
+			throw new RuntimeException("文件路径或文件名错误...");
+		}
 		return pathOrName.substring(isContainsDian ? pathOrName.lastIndexOf(".") : pathOrName.lastIndexOf(".")+1, pathOrName.length());
 	}
 
@@ -67,8 +69,12 @@ public final class FileUtil {
 	 */
 	public static File getFile(String sourcePath, StandardOpenOption option) throws Exception{
 		File sourceFile = new File(sourcePath);
-		if(option == StandardOpenOption.READ && !sourceFile.exists()) throw new FileNotFoundException("文件不存在...");
-		if(option == StandardOpenOption.CREATE_NEW && sourceFile.exists()) throw new IOException("文件已经存在...");
+		if(option == StandardOpenOption.READ && !sourceFile.exists()) {
+			throw new FileNotFoundException("文件不存在...");
+		}
+		if(option == StandardOpenOption.CREATE_NEW && sourceFile.exists()) {
+			throw new IOException("文件已经存在...");
+		}
 		return sourceFile;
 	}
 	/**
@@ -79,9 +85,11 @@ public final class FileUtil {
 	 * @throws Exception
 	 */
 	public static void copy(String sourcePath, String targetPath, StandardOpenOption option) throws Exception{
-		InputStream is = new FileInputStream(getFile(sourcePath, option));
-		copy(is, targetPath, option);
-		if(null != is) is.close();
+		try (InputStream is = new FileInputStream(getFile(sourcePath, option))) {
+			copy(is, targetPath, option);
+		} catch (Exception e) {
+			log.error("", e);
+		}
 	}
 
 	/**
@@ -92,19 +100,10 @@ public final class FileUtil {
 	 * @throws Exception
 	 */
 	public static void copy(InputStream is, String targetPath, StandardOpenOption option){
-		OutputStream os = null;
-		try {
-			os = new FileOutputStream(getFile(targetPath, option));
+		try (OutputStream os = new FileOutputStream(getFile(targetPath, option))) {
 			copy(is, os);
 		} catch (Exception e) {
 			log.error("", e);
-		} finally {
-			try {
-				if(null != os) os.close();
-			} catch (IOException e) {
-				log.error("", e);
-			}
-
 		}
 	}
 
@@ -117,12 +116,11 @@ public final class FileUtil {
 	public static void copy(InputStream is, OutputStream os){
 		// NIO 方式
 		if (is instanceof FileInputStream && os instanceof FileOutputStream){
-			FileChannel inChannel = null;
-			FileChannel outChannel = null;
-			try {
-				// 获取通道
-				inChannel = ((FileInputStream)is).getChannel();
-				outChannel = ((FileOutputStream)os).getChannel();
+			// 获取通道
+			try (
+				FileChannel inChannel = ((FileInputStream)is).getChannel();
+				FileChannel outChannel = ((FileOutputStream)os).getChannel()
+			) {
 				// 分配指定大小的缓冲区
 				ByteBuffer byteBuffer = ByteBuffer.allocate(BUFFER_SIZE);
 				// 将通道中的数据存入缓冲区中
@@ -133,18 +131,15 @@ public final class FileUtil {
                 }
 			} catch (IOException e){
 				log.error("", e);
-			}finally {
-				try {
-					if (null != inChannel) inChannel.close();
-					if (null != outChannel) outChannel.close();
-				} catch (IOException e) {}
 			}
 		} else {
 			// 传统流方式
 			try {
 				byte[] buffer = new byte[BUFFER_SIZE];
 				int bytesRead;
-				while ((bytesRead = is.read(buffer)) != -1) os.write(buffer, 0, bytesRead);
+				while ((bytesRead = is.read(buffer)) != -1) {
+					os.write(buffer, 0, bytesRead);
+				}
 				os.flush();
 			} catch (IOException e) {
 				log.error("", e);
@@ -181,13 +176,12 @@ public final class FileUtil {
 	 * 文件下载
 	 * @param sourcePath 源文件绝对路径
 	 * @param fileName 文件名称
-	 * @param fileType 文件路径
 	 * @param response
 	 * @throws Exception
 	 */
-	public static void download(String sourcePath, String fileName, String fileType, HttpServletResponse response) throws Exception{
+	public static void download(String sourcePath, String fileName, HttpServletResponse response) throws Exception{
 		InputStream is = new FileInputStream(getFile(sourcePath, StandardOpenOption.READ));
-		download(is, fileName, fileType, response);
+		download(is, fileName, response);
 		StreamUtil.close(is);
 	}
 
@@ -195,26 +189,18 @@ public final class FileUtil {
 	 * 文件下载
 	 * @param is 源文件输入流
 	 * @param fileName 文件名称
-	 * @param fileType 文件路径
 	 * @param response
 	 * @throws Exception
 	 */
-	public static void download(InputStream is, String fileName, String fileType, HttpServletResponse response){
-		OutputStream os = null;
-		try {
-			os = response.getOutputStream();
-			response.setContentType(fileType + "; charset=UTF-8");
-			response.setHeader("Content-Disposition", "attachment;filename=" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1"));
+	public static void download(InputStream is, String fileName, HttpServletResponse response){
+		try(OutputStream os = response.getOutputStream()) {
+			response.setContentType("application/octet-stream; charset=UTF-8");
+			response.setHeader("Content-Disposition", "attachment; filename=" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1"));
 			copy(is, os);
 		} catch (Exception e) {
 			log.error("", e);
-		} finally {
-			try {
-				if(null != os) os.close();
-			} catch (IOException e) {
-				log.error("", e);
-			}
 		}
 	}
+
 
 }

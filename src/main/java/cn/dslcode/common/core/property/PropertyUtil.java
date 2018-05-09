@@ -1,12 +1,7 @@
 package cn.dslcode.common.core.property;
 
-import cn.dslcode.common.core.exception.ExceptionParser;
 import cn.dslcode.common.core.reflect.ReflectUtil_MDL;
-import cn.dslcode.common.core.string.StringUtil;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.dozer.DozerBeanMapper;
-import org.dozer.Mapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cglib.core.ReflectUtils;
 
@@ -20,9 +15,9 @@ import java.util.*;
  * @author 董思林
  *  2016年11月08日 15:55:30
  */
+@Slf4j
 public class PropertyUtil<T> {
 
-	private final static Log log = LogFactory.getLog(PropertyUtil.class);
 	public static Class sourceAnnoClass = PropertySource.class;
 	public static Class propAnnoClass = PropertyMapping.class;
 
@@ -36,7 +31,7 @@ public class PropertyUtil<T> {
 		try {
 			copy(source, target, validType);
 		}catch (Exception e) {
-			log.error(e);
+			log.error("", e);
 		}
 	}
 
@@ -57,7 +52,7 @@ public class PropertyUtil<T> {
 				copy(source, vo, validType);
 			}
 		} catch (Exception e) {
-			log.error(e);
+			log.error("", e);
 		}
 		return vos;
 	}
@@ -182,7 +177,7 @@ public class PropertyUtil<T> {
 				}
 			}
 		} catch (Exception e) {
-			log.error(StringUtil.append(targetClass.getClass().getName(), ExceptionParser.getInfo(e)),e);
+			log.error("", e);
 		}
 		return target;
 	}
@@ -250,40 +245,11 @@ public class PropertyUtil<T> {
 					propDescriptor.getWriteMethod().invoke(target,value);
 				}
 			} catch (Exception e) {
-				log.error(StringUtil.append(target.getClass().getName(),":", propDescriptor.getName(), ExceptionParser.getInfo(e)), e);
+				log.error("", e);
 			}
 		} catch (Exception e) {
-			log.error(StringUtil.append(target.getClass().getName(), ExceptionParser.getInfo(e)), e);
+			log.error("", e);
 		}
-	}
-
-
-	private static final Mapper dozerMapper = new DozerBeanMapper();
-
-	/**
-	 * Dozer 复制属性，性能非常好
-	 * @param source
-	 * @param targetClass
-	 * @return
-	 */
-	public static<T> T mapper(Object source, Class<T> targetClass){
-		if (null == source) return null;
-		return dozerMapper.map(source, targetClass);
-	}
-
-	/**
-	 * Dozer 复制List属性，性能非常好
-	 * @param sources
-	 * @param targetClass
-	 * @return
-	 */
-	public static<T> List<T> mapperList(List sources, Class<T> targetClass){
-		if (null == sources) return null;
-		int size = sources.size();
-		if (size == 0) return new ArrayList<T>(0);
-		List<T> results = new ArrayList<T>(sources.size());
-		sources.forEach(s -> results.add(mapper(s, targetClass)));
-		return results;
 	}
 
 }

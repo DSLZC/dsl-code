@@ -1,6 +1,8 @@
 package cn.dslcode.common.core;
 
 import cn.dslcode.common.core.string.StringUtil;
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
 
 import java.security.MessageDigest;
 import java.util.Base64;
@@ -58,7 +60,7 @@ public class EncryptUtil {
      * @param str 加密字符串
      * @return 解密的字符串
      */
-    public static String BASE64Decod(String str) {
+    public static String BASE64Decode(String str) {
 		if(StringUtil.isEmpty(str)) return null;
     	try {
 			return new String(Base64.getDecoder().decode(str.getBytes("utf-8")), "utf-8");
@@ -67,5 +69,20 @@ public class EncryptUtil {
 			return null;
 		}
     }
+
+
+	/**
+	 * Hex编码.
+	 */
+	public static String HexEncode(byte[] input) {
+		return new String(Hex.encodeHex(input));
+	}
+
+	/**
+	 * Hex解码.
+	 */
+	public static byte[] HexDecode(String input) throws DecoderException {
+		return Hex.decodeHex(input.toCharArray());
+	}
 
 }

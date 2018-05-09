@@ -18,6 +18,26 @@ import java.util.List;
  */
 public class CollectionUtil<T, U> extends CollectionUtils {
 
+
+    /**
+     * 创建 ArrayList
+     * @param initialCapacity
+     * @param <T>
+     * @return ArrayList
+     */
+    public static<T> List<T> newArrayList(int initialCapacity){
+        return new ArrayList<>(initialCapacity);
+    }
+
+    /**
+     * 创建 ArrayList
+     * @param <T>
+     * @return ArrayList
+     */
+    public static<T> List<T> newArrayList(){
+        return new ArrayList<>();
+    }
+
     /**
      * 数组转List
      * @param datas 数组
@@ -25,8 +45,8 @@ public class CollectionUtil<T, U> extends CollectionUtils {
      * @return List
      */
     public static<T> List<T> getList(T... datas){
-        List<T> list = new ArrayList<T>(5);
-        if(ArrayUtil.isEmpty(datas)) return list;
+        if(ArrayUtil.isEmpty(datas)) return new ArrayList<>(0);
+        List<T> list = new ArrayList<>(datas.length);
         for(T data : datas){
             list.add(data);
         }

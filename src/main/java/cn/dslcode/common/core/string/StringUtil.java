@@ -85,8 +85,8 @@ public class StringUtil extends StringUtils {
 	 * @param objects 拼接对象
 	 * @return 拼接过后的StringBuffer对象
 	 */
-	public static StringBuffer append(StringBuffer sb, Object...objects) {
-		if(null == sb) sb = new StringBuffer();
+	public static StringBuilder append(StringBuilder sb, Object... objects) {
+		if(null == sb) sb = new StringBuilder();
 		for (Object o : objects) sb = sb.append(null == o? "" : o);
 		return sb;
 	}
@@ -96,7 +96,7 @@ public class StringUtil extends StringUtils {
 	 * @param objects 拼接对象
 	 * @return 拼接过后的StringBuffer对象
 	 */
-	public static StringBuffer append(Object...objects) {
+	public static StringBuilder append(Object... objects) {
 		return append(null, objects);
 	}
 

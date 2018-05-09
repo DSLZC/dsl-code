@@ -39,28 +39,28 @@ public class IdGenerator {
     private final int sequenceBits = 12;
 
     /** 机器ID向左移12位 */
-    private final int workerIdShift = sequenceBits;
+    private final long workerIdShift = sequenceBits;
 
     /** 数据标识id向左移17位(12+5) */
     private final int dataCenterIdShift = sequenceBits + workerIdBits;
 
     /** 时间截向左移22位(5+5+12) */
-    private final int timestampLeftShift = sequenceBits + workerIdBits + dataCenterIdBits;
+    private final long timestampLeftShift = sequenceBits + workerIdBits + dataCenterIdBits;
 
     /** 生成序列的掩码，这里为4095 (0b111111111111=0xfff=4095) */
     private final int millisSequenceMask = -1 ^ (-1 << sequenceBits);
 
     /** 工作机器ID(0~31) */
-    private int workerId;
+    private long workerId;
 
     /** 数据中心ID(0~31) */
-    private int dataCenterId;
+    private long dataCenterId;
 
     /** 毫秒内序列(0~4095) */
-    private int millisSequence = 0;
+    private volatile long millisSequence = 0;
 
     /** 上次生成ID的时间截 */
-    private long latestMillis = 0L;
+    private volatile long latestMillis = 0L;
 
     /**
      * 构造函数
@@ -84,7 +84,7 @@ public class IdGenerator {
      */
     public long nextId() {
         long nowMillis = System.currentTimeMillis();
-        int partMillisSequence = 0;
+        long partMillisSequence = 0;
         try {
             lock.lock();
             // 如果是同一时间生成的，则进行毫秒内序列

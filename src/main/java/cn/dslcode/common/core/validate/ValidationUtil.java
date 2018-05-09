@@ -1,14 +1,18 @@
 package cn.dslcode.common.core.validate;
 
+import cn.dslcode.common.core.collection.CollectionUtil;
+import cn.dslcode.common.core.exception.ValidException;
 import cn.dslcode.common.core.string.StringUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.HibernateValidator;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import java.util.Collection;
+import javax.validation.groups.Default;
+import java.util.Set;
 
 /**
  * Created by dongsilin on 2016/12/14.
@@ -35,8 +39,9 @@ import java.util.Collection;
  // @Range(min=,max=,message=)  被注释的元素必须在合适的范围内
  */
 @Slf4j
-public class ValidationUtil<T> {
-    private static final Validator validator =  Validation.buildDefaultValidatorFactory().getValidator();
+public class ValidationUtil<S> {
+//    private static final Validator validator =  Validation.buildDefaultValidatorFactory().getValidator();
+    private static Validator validator = Validation.byProvider(HibernateValidator.class).configure().failFast(true).buildValidatorFactory().getValidator();
 
     /** 4-20长度的所有字符 正则 */
     public static final String ALL_4_20_REG = "^.{4,20}$";
@@ -93,35 +98,19 @@ public class ValidationUtil<T> {
         return false;
     }
 
-    /**
-     * 验证
-     * @param t
-     * @param <T>
-     * @throws Exception
-     */
-    public static<T> void validate(T t) throws Exception {
-        for (ConstraintViolation<T> constraintViolation : validator.validate(t)) {
-            throw new Exception(constraintViolation.getPropertyPath().toString() + "：" + constraintViolation.getMessage());
+    public static void valid(BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            FieldError fieldError = bindingResult.getFieldErrors().iterator().next();
+            throw new ValidException(StringUtil.append2String(fieldError.getField(), ":", fieldError.getDefaultMessage()));
         }
     }
 
-    /**
-     * 验证集合
-     * @param cs
-     * @param <T>
-     * @throws Exception
-     */
-    public static<T> void validateCollection(Collection<T> cs) throws Exception {
-        for (T t : cs) validate(t);
+    public static<S> void valid(S source){
+        Set<ConstraintViolation<S>> violations = validator.validate(source, Default.class);
+        if (CollectionUtil.isNotEmpty(violations)) {
+            ConstraintViolation violation = violations.iterator().next();
+            throw new ValidException(StringUtil.append2String(violation.getPropertyPath(), ":", violation.getMessageTemplate()));
+        }
     }
 
-    /**
-     * 获取第一个验证失败的消息
-     * @param result
-     * @return
-     */
-    public static String getErrorMsg(BindingResult result){
-        FieldError error = result.getFieldErrors().get(0);
-        return error.getField() + "：" + error.getDefaultMessage();
-    }
 }

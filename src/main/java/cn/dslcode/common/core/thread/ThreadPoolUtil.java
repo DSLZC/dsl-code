@@ -1,6 +1,7 @@
 package cn.dslcode.common.core.thread;
 
 import cn.dslcode.common.core.string.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,12 +11,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by dongsilin on 2017/7/21.
  */
-public class ThreadPoolUtil {
+@Slf4j
+public class ThreadPoolUtil implements AutoCloseable {
 
-    private static ExecutorService executorService = null;
     private static final int CORE_THREAD_SIZE = Runtime.getRuntime().availableProcessors();// 核心线程数
     private static final int MAX_THREAD_SIZE = CORE_THREAD_SIZE * 2;// 最大线程数，即线程池中允许存在的最大线程数
     private static final int KEEP_ALIVE_TIME = 10;// 线程存活时间，对于超过核心线程数的线程，当线程处理空闲状态下，且维持时间达到keepAliveTime时，线程将被销毁
+
+    private static ExecutorService executorService = Executors.newFixedThreadPool(MAX_THREAD_SIZE);
 
 
     /**
@@ -46,18 +49,11 @@ public class ThreadPoolUtil {
     }
 
     /**
-     * 关闭线程池
-     */
-    public static final void closePool(){
-        if (null != executorService) executorService.shutdown();
-    }
-
-    /**
      * 执行Runnable任务
      * @param task
      */
     public static final void run(Runnable task){
-        initPool(CORE_THREAD_SIZE);
+//        initPool(CORE_THREAD_SIZE);
         executorService.submit(task);
     }
 
@@ -68,8 +64,19 @@ public class ThreadPoolUtil {
      * @return Future实例，通过调用Future.get()获得线程返回值
      */
     public static final <T> Future<T> runCallable(Callable<T> task){
-        initPool(CORE_THREAD_SIZE);
+//        initPool(CORE_THREAD_SIZE);
         return executorService.submit(task);
+    }
+
+    /**
+     * 关闭线程池
+     */
+    @Override
+    public void close() throws Exception {
+        log.debug("**********关闭线程池......");
+        if (null != executorService) {
+            executorService.shutdown();
+        }
     }
 
 
@@ -113,38 +120,24 @@ public class ThreadPoolUtil {
         }
     }
 
-    public static void main(String[] args){
-        initPool(CORE_THREAD_SIZE);
-        ThreadPoolUtil.closePool();
-    }
-
-//    public static void main(String[] args) throws InterruptedException, ExecutionException {
-//        run(() -> {
-//            int sum = 0;
-//            for(int i = 1; i < 10; i++) {
-//                sum += i;
-//                try {
-//                    Thread.sleep(100);
-//                } catch (InterruptedException e) {
-//                }
-//            }
-//            System.out.println(sum);
-//        });
-//        Future<Integer> future =  run(() -> {
-//            int sum = 0;
-//            for(int i = 1; i < 10; i++) {
-//                sum += i;
-//                try {
-//                    Thread.sleep(100);
-//                } catch (InterruptedException e) {
-//                }
-//            }
-//            System.out.println("f =  "+ sum);
-//            return sum;
-//        });
-//        System.out.println("ff = " + future.get());
-//
-//        Thread.sleep(2000);
-//        closePool();
+//    public static void main(String[] args){
+//        initPool(CORE_THREAD_SIZE);
 //    }
+
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
+        run(() -> {
+            int sum = 0;
+            for(int i = 1; i < 10; i++) {
+                sum += i;
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                }
+            }
+            System.out.println(sum);
+        });
+
+        Thread.sleep(2000);
+        System.exit(1);
+    }
 }

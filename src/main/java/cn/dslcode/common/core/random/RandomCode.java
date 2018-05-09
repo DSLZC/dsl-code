@@ -1,6 +1,7 @@
 package cn.dslcode.common.core.random;
 
 import java.util.Random;
+import java.util.stream.IntStream;
 
 /**
  * 生成随机字符串类
@@ -34,7 +35,7 @@ public class RandomCode {
 	 * @return
 	 */
 	public static String getNumLetterCode(int len){
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<len; i++){
 			sb.append(NUM_LETTER_ALL[random.nextInt(NUM_LETTER_ALL_LEN)]);
 		}
@@ -47,10 +48,8 @@ public class RandomCode {
 	 * @return
 	 */
 	public static String getNumLetterLowerCode(int len){
-		StringBuffer sb = new StringBuffer();
-		for(int i=0; i<len; i++){
-			sb.append(NUM_LETTER_L[random.nextInt(NUM_LETTER_L_LEN)]);
-		}
+		StringBuilder sb = new StringBuilder();
+		IntStream.range(0, len).forEach(i -> sb.append(NUM_LETTER_L[random.nextInt(NUM_LETTER_L_LEN)]));
 		return sb.toString();
 	}
 	
@@ -60,7 +59,7 @@ public class RandomCode {
 	 * @return
 	 */
 	public static String getLetterLowerCode(int len){
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<len; i++){
 			sb.append(LETTER_L[random.nextInt(LETTER_L_LEN)]);
 		}
@@ -73,7 +72,7 @@ public class RandomCode {
 	 * @return
 	 */
 	public static String getNumCode(int len){
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<len; i++){
 			sb.append(NUM_ALL[random.nextInt(NUM_ALL_LEN)]);
 		}
