@@ -49,11 +49,11 @@ public class RestResponse<T> implements Serializable {
         return new RestResponse(code, null, data);
     }
 
-    public static RestResponse build(CommonResponseCode responseCode) {
+    public static RestResponse build(ResponseCode responseCode) {
         return new RestResponse(responseCode.getCode(), responseCode.getMessage(), null);
     }
 
-    public static <T> RestResponse build(CommonResponseCode responseCode, T data) {
+    public static <T> RestResponse build(ResponseCode responseCode, T data) {
         return new RestResponse(responseCode.getCode(), responseCode.getMessage(), data);
     }
 
